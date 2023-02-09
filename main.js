@@ -11,18 +11,23 @@ for (const [key, value] of exchangeRates) {
     console.log(`1 USD equals ${value} ${key}`);
 }
 console.log(
-    'I can convert USD to these currencies: JPY, EUR, RUB, USD, GBP\nType the currency you wish to convert: USD');
+    'What do you want to convert?');
 const input = require('sync-input');
-let currency = input("To: ").toUpperCase();
-if (exchangeRates.has(currency)) {
-    let amount = Number(input("Amount: "));
-    if (amount >= 1) {
-        let result = exchangeRates.get(currency) * amount;
-        console.log(`Result: ${amount} USD equals ${result.toFixed(4)} ${currency}`);
-    } else if (amount < 1) {
-        console.log("The amount cannot be less than 1")
+let from = input("From: ").toUpperCase();
+if (exchangeRates.has(from)) {
+    let to = input("To: ").toUpperCase();
+    if (exchangeRates.has(to)) {
+        let amount = Number(input("Amount: "));
+        if (amount >= 1) {
+            let result = exchangeRates.get(to) * amount / exchangeRates.get(from);
+            console.log(`Result: ${amount} ${from} equals ${result.toFixed(4)} ${to}`);
+        } else if (amount < 1) {
+            console.log("The amount cannot be less than 1")
+        } else {
+            console.log("The amount has to be a number")
+        }
     } else {
-        console.log("The amount has to be a number")
+        console.log(`Unknown currency`);
     }
 } else {
     console.log(`Unknown currency`);
